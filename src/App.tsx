@@ -1,11 +1,11 @@
-import React, { useState } from 'react'
 import liff from '@line/liff'
+import { useState } from 'react'
 import styles from './App.module.css'
 import Header from './components/Header'
-import Snippet from './components/Snippet'
 import Input from './components/Input'
 import Select from './components/Select'
-import { FilterContext, FilterTypes, FilterType } from './Context'
+import Snippet from './components/Snippet'
+import { FilterContext, FilterType, FilterTypes } from './Context'
 
 const getFilterOptions = () => {
   return Object.entries(FilterTypes).map(([value, label]) => ({
@@ -15,20 +15,33 @@ const getFilterOptions = () => {
 
 function App() {
   const [filter, setFilter] = useState<FilterType>(FilterTypes.ALL)
+  const [id, setId] = useState('1657374555-pyOWw3eM')
   let isLoggedIn = false
   try {
     isLoggedIn = liff.isLoggedIn()
   } catch (e) {
     console.log(e)
   }
+
+  const handleChange = (e) => {
+    setId(e.target.value);
+    liff
+    .init({ liffId: e.target.value })
+    .then(() => {
+
+    })
+  }
+
+  useEffect(() => {
+   
   return (
     <FilterContext.Provider value={filter}>
       <Header />
       <div className={styles.container}>
         <div className={styles.liffIdBox}>
           <Input
-            readonly
-            value={'LIFF ID: ' + import.meta.env.VITE_LIFF_ID || ''}
+            value={id}
+            onChange={(e) => handleChange(e.target.value)}
           />
           <Select
             value={filter}
