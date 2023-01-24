@@ -1,3 +1,4 @@
+/* eslint-disable */
 import liff from '@line/liff'
 import { useState } from 'react'
 import styles from './App.module.css'
